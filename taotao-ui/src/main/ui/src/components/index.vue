@@ -29,14 +29,16 @@
         <el-row>
           <el-col :span="6" v-for="(sh, index) in sharingHouse" :key="index" style="margin: 10px 0 0 50px">
             <el-card style="cursor: pointer" shadow="hover" :body-style="{ padding: '0px' }">
-              <img width="50px" height="250px" :src="baseUrl + sh.picture[0].name" class="image">
-              <div style="padding: 14px;">
+              <div @click="toHouseBasic(sh.id)">
+                <img width="50px" height="250px" :src="baseUrl + sh.picture[0].name" class="image">
+                <div style="padding: 14px;">
                 <span><span style="color: red;font-size: 25px">{{sh.money}}</span>元/月</span>
                 <div class="bottom clearfix">
                   <span style="font-size: 5px">{{sh.title}}</span>
                   <label style="float: right">约{{sh.size}}㎡</label>
                   <span style="font-size: 5px;display: block;margin-top: 7px;color: #909399">{{sh.subway}}</span>
                 </div>
+              </div>
               </div>
             </el-card>
           </el-col>
@@ -54,15 +56,17 @@
       <div style="margin: 30px 0 0 80px">
         <el-row>
           <el-col :span="6" v-for="(wh, index) in wholeHouse" :key="index" style="margin: 10px 0 0 50px">
-            <el-card style="cursor: pointer" shadow="hover" :body-style="{ padding: '0px' }">
-              <img width="50px" height="250px" :src="baseUrl + wh.picture[0].name" class="image">
-              <div style="padding: 14px;">
+            <el-card @click="toHouseBasic(wh.id)" style="cursor: pointer" shadow="hover" :body-style="{ padding: '0px' }">
+              <div @click="toHouseBasic(sh.id)">
+                <img width="50px" height="250px" :src="baseUrl + wh.picture[0].name" class="image">
+                <div style="padding: 14px;">
                 <span><span style="color: red;font-size: 25px">{{wh.money}}</span>元/月</span>
                 <div class="bottom clearfix">
                   <span style="font-size: 5px">{{wh.title}}</span>
                   <label style="float: right">约{{wh.size}}㎡</label>
                   <span style="font-size: 5px;display: block;margin-top: 7px;color: #909399">{{wh.subway}}</span>
                 </div>
+              </div>
               </div>
             </el-card>
           </el-col>
@@ -160,6 +164,9 @@
       },
       toOwner() {
         this.$router.push({name: 'owner'})
+      },
+      toHouseBasic(id) {
+        this.$router.push({name: 'HouseBasic', params: {id: id}})
       }
     }
   }

@@ -7,6 +7,7 @@ import com.taotao.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 @Service(version = "1.0")
 public class HouseServiceImpl implements HouseService {
@@ -20,8 +21,8 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public List<House> findHouse(String userId, String rent, int startPage, int pageSize) {
-        return houseDao.findHouse(userId, rent, startPage, pageSize);
+    public List<House> findHouse(Map<String, Object> house) {
+        return houseDao.findHouse(house);
     }
 
     @Override

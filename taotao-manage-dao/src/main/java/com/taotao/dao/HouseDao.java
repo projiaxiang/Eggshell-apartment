@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface HouseDao {
@@ -18,6 +19,7 @@ public interface HouseDao {
             "select * from house where 1 = 1 " +
             "<if test=\"userId !=null \"> and userId = #{userId} </if> " +
             "<if test=\"rent !=null \"> and rent = #{rent} </if> " +
+            "<if test=\"id !=null \"> and id = #{id} </if> " +
             "order by createTime desc limit #{startPage}, #{pageSize}" +
             "</script>")
     @Results({
@@ -27,10 +29,7 @@ public interface HouseDao {
                         select = "com.taotao.dao.PictureDao.findPictureByHouseId"
             ))
     })
-    List<House> findHouse(@Param("userId") String userId,
-                          @Param("rent") String rent,
-                          @Param("startPage")int startPage,
-                          @Param("pageSize")int pageSize);
+    List<House> findHouse(Map<String, Object> house);
 
     @Select("select count(*) as total from house")
     int findTotalHouse();

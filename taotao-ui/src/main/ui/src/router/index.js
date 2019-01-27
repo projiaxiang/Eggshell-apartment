@@ -7,6 +7,7 @@ import owner from '@/components/owner/Owner.vue'
 import collection from '@/components/owner/Collection.vue'
 import release from '@/components/owner/Release.vue'
 import personal from '@/components/owner/Personal.vue'
+import HouseBasic from '@/components/house/HouseBasic.vue'
 
 Vue.use(Router)
 
@@ -53,6 +54,14 @@ const router = new Router({
               component: personal
             }
           ]
+        },
+        {
+          path: '/house/basic/:id',
+          name: 'HouseBasic',
+          component: HouseBasic,
+          meta: {
+            requiresAuth: true
+          }
         }
       ]
     }

@@ -47,7 +47,11 @@ public class HouseController {
     public Map<String, Object> findHouse(@RequestParam("userId")String userId,
                                  @RequestParam("startPage")int startPage, @RequestParam("pageSize")int pageSize) {
         int total = houseService.findTotalHouse();
-        List<House> beans = houseService.findHouse(userId, null, startPage, pageSize);
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        map.put("startPage", startPage);
+        map.put("pageSize", pageSize);
+        List<House> beans = houseService.findHouse(map);
         Map<String, Object> result = new HashMap<>();
         result.put("total", total);
         result.put("house", beans);
@@ -57,7 +61,22 @@ public class HouseController {
     @RequestMapping("/find/index/house")
     @ResponseBody
     public List<House> findIndexHouse(@RequestParam("rent")String rent) {
-        return houseService.findHouse(null, rent, 0, 6);
+        Map<String, Object> map = new HashMap<>();
+        map.put("rent", rent);
+        map.put("startPage", 0);
+        map.put("pageSize", 6);
+        return houseService.findHouse(map);
+    }
+
+    @RequestMapping("/find/house/by/id")
+    @ResponseBody
+    public House findHouseById(@RequestParam("id")String id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("startPage", 0);
+        map.put("pageSize", 1);
+        List<House> houses = houseService.findHouse(map);
+        return houses.get(0);
     }
 
     @RequestMapping("/delete/house")
