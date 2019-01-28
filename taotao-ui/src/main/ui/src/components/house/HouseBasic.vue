@@ -47,7 +47,7 @@
           地铁 ：{{house.subway}}
         </el-row>
         <el-row class="margin-top-1">
-          <el-button type="primary" plain round icon="el-icon-star-off">收藏</el-button>
+          <el-button @click="saveCollection" type="primary" plain round icon="el-icon-star-off">收藏</el-button>
           <el-button type="primary" round style="width: 54%">预约看房</el-button>
         </el-row>
       </el-col>
@@ -71,14 +71,14 @@
       </el-col>
     </el-row>
     <el-row style="margin-top: 30px">
-      <hr style="width: 41%;display: inline-block"/>
+      <hr style="width: 43%;display: inline-block"/>
       <span style="margin: 0 5px 0 5px;font-size: 25px">房屋配置</span>
-      <hr style="width: 41%;display: inline-block"/>
+      <hr style="width: 43%;display: inline-block"/>
     </el-row>
     <el-row style="margin-top: 30px">
       <el-col :span="24">
         <el-card shadow="always">
-          <el-row>
+          <el-row style="margin-left: 10%">
             <el-col :span="4" v-for="(picture, index) in configPictures" :key="index">
               <el-tooltip class="item" effect="dark" :content="picture.label" placement="top">
                 <img :src="picture.url" style="display: block;margin: 0 auto">
@@ -99,6 +99,10 @@
       return {
         house: {
           picture: null
+        },
+        user: {
+          id: null,
+          username: null
         },
         baseUrl: 'http://127.0.0.1:9091/image/',
         options: location,
@@ -121,10 +125,19 @@
       }
     },
     created() {
+      this.init()
       let id = this.$route.params.id
       this.loadHouseById(id)
     },
     methods: {
+      async init() {
+        let key = this.$cookie.get('user_session')
+
+        if (key) {
+          sessionStorage.setItem('user_session', key)
+          await this.getUserFromRedis(key)
+        }
+      },
       loadHouseById(id) {
         this.$axios({
           method: "post",
@@ -142,6 +155,40 @@
           })
         })
         .catch(function () {
+          self.$message.error('服务器端错误')
+        })
+      },
+      async getUserFromRedis(key) {
+        await this.$axios({
+          method: "post",
+          url: "/get/user/from/redis",
+          data: this.$qs.stringify({
+            key: key
+          })
+        }).then((res)=>{
+          this.user = res.data
+        })
+        .catch(function () {
+
+        })
+      },
+      saveCollection() {
+        let self = this
+
+        this.$axios({
+          method: "post",
+          url: "/collection/insertCollection",
+          data: {
+            userId: self.user.id,
+            houseId: self.$route.params.id
+          },
+        }).then((res)=>{
+          if (res.data.success) {
+            self.$message({message: '收藏成功', type: 'success'})
+          } else {
+            self.$message.error('收藏失败')
+          }
+        }).catch(function () {
           self.$message.error('服务器端错误')
         })
       },
