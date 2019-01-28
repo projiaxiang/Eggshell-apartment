@@ -114,9 +114,11 @@
         <el-input type="textarea" :rows="3" v-model="entity.introduction"></el-input>
       </el-form-item>
       <el-form-item label="房屋配置">
-        <el-checkbox-group v-model="entity.configure">
-          <el-checkbox v-for="(config, index) in configs" :label="config" :key="index">{{config}}</el-checkbox>
-        </el-checkbox-group>
+        <el-tag>床</el-tag>
+        <el-tag style="margin-left: 10px">WIFI</el-tag>
+        <el-tag style="margin-left: 10px">洗衣机</el-tag>
+        <el-tag style="margin-left: 10px">空调</el-tag>
+        <el-tag style="margin-left: 10px">智能锁</el-tag>
       </el-form-item>
     </el-form>
     <el-form label-width="90px" style="width: 74.4%">
@@ -146,14 +148,12 @@
 
   export default {
     data() {
-      const configs = ['床', 'WIFI', '独立阳台', '洗衣机', '空调', '智能锁'];
 
       return {
         total: 0,
         currentPage1: 1,
         pageSize: 4,
         options: location,
-        configs: configs,
         entities: [],
         entity: {
           id: null,
@@ -341,11 +341,6 @@
       },
       showHouse(entity) {
         this.isAdd = true
-        let config = entity.configure
-        config = config.replace('[', '')
-        config = config.replace(']', '')
-        config = config.replace(/"/g, '')
-        entity.configure = config.split(',')
         this.entity = entity
         this.selectLocation = Array.from({
           0: this.entity.province,

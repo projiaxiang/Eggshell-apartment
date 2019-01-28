@@ -70,6 +70,24 @@
         </el-card>
       </el-col>
     </el-row>
+    <el-row style="margin-top: 30px">
+      <hr style="width: 41%;display: inline-block"/>
+      <span style="margin: 0 5px 0 5px;font-size: 25px">房屋配置</span>
+      <hr style="width: 41%;display: inline-block"/>
+    </el-row>
+    <el-row style="margin-top: 30px">
+      <el-col :span="24">
+        <el-card shadow="always">
+          <el-row>
+            <el-col :span="4" v-for="(picture, index) in configPictures" :key="index">
+              <el-tooltip class="item" effect="dark" :content="picture.label" placement="top">
+                <img :src="picture.url" style="display: block;margin: 0 auto">
+              </el-tooltip>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -92,6 +110,13 @@
           {url: require('../../assets/8.jpg'), label: '售后维修及时上门'},
           {url: require('../../assets/9.jpg'), label: '智能密码锁'},
           {url: require('../../assets/10.jpg'), label: '免费WIFI'}
+        ],
+        configPictures: [
+          {url: require('../../assets/11.jpg'), label: '床'},
+          {url: require('../../assets/12.jpg'), label: 'WIFI'},
+          {url: require('../../assets/13.jpg'), label: '洗衣机'},
+          {url: require('../../assets/14.jpg'), label: '空调'},
+          {url: require('../../assets/15.jpg'), label: '智能锁'}
         ]
       }
     },
