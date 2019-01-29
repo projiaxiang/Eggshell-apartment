@@ -32,7 +32,10 @@
 </template>
 
 <script>
+  import UserRedis from '../utils/RedisUtil.js'
+
   export default {
+    mixins: [UserRedis],
     computed: {
       activeIndex() {
         if (this.$route.name === 'index') {
@@ -54,29 +57,15 @@
         }
       }
     },
-    created() {
+    async created() {
       //如果cookie中存在user_session，则从缓存中获取user相关信息
       let key = this.$cookie.get('user_session')
 
       if (key) {
-        this.getUserFromRedis(key)
+        await this.getUserInfoFromRedis(key)
       }
     },
     methods: {
-      getUserFromRedis(key) {
-        this.$axios({
-          method: "post",
-          url: "/get/user/from/redis",
-          data: this.$qs.stringify({
-            key: key
-          })
-        }).then((res)=>{
-          this.user = res.data
-        })
-          .catch(function () {
-            self.$message.error('服务器端错误')
-          })
-      },
       toLogin() {
         this.$router.push({name: 'login'})
       },

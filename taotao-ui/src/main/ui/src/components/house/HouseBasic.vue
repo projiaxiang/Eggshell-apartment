@@ -106,8 +106,10 @@
 
 <script>
   import location from '../../config/China_Province_City.json'
+  import UserRedis from '../../utils/RedisUtil.js'
 
   export default {
+    mixins: [UserRedis],
     data() {
       return {
         house: {
@@ -145,8 +147,7 @@
       async init() {
         let key = this.$cookie.get('user_session')
         if (key) {
-          sessionStorage.setItem('user_session', key)
-          await this.getUserFromRedis(key)
+          await this.getUserInfoFromRedis(key)
         }
         let id = this.$route.params.id
         this.loadHouseById(id)
@@ -169,20 +170,6 @@
         })
         .catch(function () {
           self.$message.error('服务器端错误')
-        })
-      },
-      async getUserFromRedis(key) {
-        await this.$axios({
-          method: "post",
-          url: "/get/user/from/redis",
-          data: this.$qs.stringify({
-            key: key
-          })
-        }).then((res)=>{
-          this.user = res.data
-        })
-        .catch(function () {
-
         })
       },
       saveCollection() {

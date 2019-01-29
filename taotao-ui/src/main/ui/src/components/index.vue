@@ -77,8 +77,10 @@
 </template>
 
 <script>
+  import UserRedis from '../utils/RedisUtil.js'
 
   export default {
+    mixins: [UserRedis],
     data () {
       return {
         pictures: [
@@ -111,25 +113,10 @@
         let key = this.$cookie.get('user_session')
 
         if (key) {
-          sessionStorage.setItem('user_session', key)
-          await this.getUserFromRedis(key)
+          await this.getUserInfoFromRedis(key)
         }
         this.loadSharingHouse()
         this.loadWholeHouse()
-      },
-      async getUserFromRedis(key) {
-        await this.$axios({
-          method: "post",
-          url: "/get/user/from/redis",
-          data: this.$qs.stringify({
-            key: key
-          })
-        }).then((res)=>{
-          this.user = res.data
-        })
-        .catch(function () {
-
-        })
       },
       loadSharingHouse() {
         this.$axios({
