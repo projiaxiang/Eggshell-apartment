@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div @click="closeShowMenu">
       <el-container style="margin-left: 100px">
         <el-aside width="410px">
           <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
@@ -17,8 +17,13 @@
             <el-radio-button label="right">注册</el-radio-button>
           </el-radio-group>
           <span v-else style="margin-bottom: 30px;">
-          欢迎您，<el-button type="text">{{user.name}}</el-button>
-        </span>
+            欢迎您，
+            <el-button type="text" @click="showMenu">{{user.name}}</el-button>
+            <div v-show="isShowMenu" class="el-card is-always-shadow card-div">
+              <div class="text" @click="toOwner">个人信息</div>
+              <div class="text" style="margin-top: 5px" @click="goOut">安全退出</div>
+            </div>
+          </span>
         </el-main>
       </el-container>
       <div>
@@ -38,9 +43,10 @@
     mixins: [UserRedis],
     computed: {
       activeIndex() {
-        if (this.$route.name === 'index') {
+        let route = this.$route.name
+        if (route === 'index') {
           return '1'
-        } else if (this.$route.name === 'owner') {
+        } else if (route === 'owner' || route === 'release' || route === 'collection' || route === 'personal' ) {
           return '6'
         }
       }
@@ -54,7 +60,8 @@
           name: null,
           phone: null,
           sex: null
-        }
+        },
+        isShowMenu: false
       }
     },
     async created() {
@@ -66,6 +73,12 @@
       }
     },
     methods: {
+      goOut() {
+        event.stopPropagation()
+        this.$cookie.remove('user_session')
+        sessionStorage.clear()
+        this.$router.push({name: 'login'})
+      },
       toLogin() {
         this.$router.push({name: 'login'})
       },
@@ -74,11 +87,35 @@
       },
       toIndex() {
         this.$router.push({name: 'index'})
+      },
+      showMenu() {
+        event.stopPropagation()
+        this.isShowMenu = !this.isShowMenu
+      },
+      closeShowMenu() {
+        this.isShowMenu = false
       }
     }
   }
 </script>
 
 <style scoped>
+  .text {
+    font-size: 14px;
+    cursor: pointer;
+    padding-left: 15%;
+  }
 
+  .card-div {
+    position:absolute;
+    top:65px;
+    z-index:100;
+    padding: 10px 5px 10px 5px;
+    width: 7%;
+    margin-left: 3.2%;
+  }
+
+  .el-card div:hover {
+    background-color: #EBEEF5;
+  }
 </style>
