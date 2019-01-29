@@ -148,7 +148,6 @@
 
   export default {
     data() {
-
       return {
         total: 0,
         currentPage1: 1,
