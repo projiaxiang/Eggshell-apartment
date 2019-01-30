@@ -168,7 +168,8 @@
             length: 3
           })
         })
-        .catch(function () {
+        .catch((error)=> {
+          console.log(error)
           self.$message.error('服务器端错误')
         })
       },
@@ -177,7 +178,7 @@
 
         this.$axios({
           method: "post",
-          url: "/collection/insertCollection",
+          url: "/api/collection/insertCollection",
           data: {
             userId: self.user.id,
             houseId: self.$route.params.id
@@ -189,8 +190,15 @@
           } else {
             self.$message.error('收藏失败')
           }
-        }).catch(function () {
-          self.$message.error('服务器端错误')
+        }).catch(function (error) {
+          if (error.message.includes('403')) {
+            self.$message({
+              message: '请先登录系统',
+              type: 'warning'
+            })
+          } else {
+            self.$message.error('服务器端错误')
+          }
         })
       },
       toApartment(str) {

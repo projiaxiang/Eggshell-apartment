@@ -58,10 +58,7 @@ const router = new Router({
         {
           path: '/house/basic/:id',
           name: 'HouseBasic',
-          component: HouseBasic,
-          meta: {
-            requiresAuth: true
-          }
+          component: HouseBasic
         }
       ]
     }

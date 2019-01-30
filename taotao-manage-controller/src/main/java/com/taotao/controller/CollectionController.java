@@ -21,7 +21,7 @@ public class CollectionController {
     @Reference(version = "1.0.0")
     private CollectionService collectionService;
 
-    @RequestMapping("/collection/insertCollection")
+    @RequestMapping("/api/collection/insertCollection")
     @ResponseBody
     public Result insertCollection(@RequestBody String collection) {
         Collection bean = JSON.parseObject(collection, new TypeReference<Collection>() {});
