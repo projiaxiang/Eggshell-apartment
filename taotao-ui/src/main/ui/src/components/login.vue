@@ -53,13 +53,10 @@ export default {
           self.$router.push({name: 'index'})
           self.$cookie.set('user_session', res.data.message)
           //为了在跳转路由时验证是否登录
-          sessionStorage.setItem('user_session', res.data.message)
+          localStorage.setItem('user_session', res.data.message)
         } else {
           self.$message.error('用户名或密码错误')
         }
-      })
-      .catch(function () {
-        self.$message.error('服务器端错误')
       })
     },
     register() {

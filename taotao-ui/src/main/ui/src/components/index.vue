@@ -128,9 +128,6 @@
         }).then((res)=>{
           this.sharingHouse = res.data
         })
-        .catch(function () {
-          self.$message.error('服务器端错误')
-        })
       },
       loadWholeHouse() {
         this.$axios({
@@ -141,9 +138,6 @@
           })
         }).then((res)=>{
           this.wholeHouse = res.data
-        })
-        .catch(function () {
-          self.$message.error('服务器端错误')
         })
       },
       toLogin() {

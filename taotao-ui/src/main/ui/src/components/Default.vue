@@ -76,7 +76,7 @@
       goOut() {
         event.stopPropagation()
         this.$cookie.remove('user_session')
-        sessionStorage.clear()
+        localStorage.clear()
         this.$router.push({name: 'login'})
       },
       toLogin() {

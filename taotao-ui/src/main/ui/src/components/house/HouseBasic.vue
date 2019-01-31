@@ -168,10 +168,6 @@
             length: 3
           })
         })
-        .catch((error)=> {
-          console.log(error)
-          self.$message.error('服务器端错误')
-        })
       },
       saveCollection() {
         let self = this
@@ -189,15 +185,6 @@
             self.isCollection = true
           } else {
             self.$message.error('收藏失败')
-          }
-        }).catch(function (error) {
-          if (error.message.includes('403')) {
-            self.$message({
-              message: '请先登录系统',
-              type: 'warning'
-            })
-          } else {
-            self.$message.error('服务器端错误')
           }
         })
       },

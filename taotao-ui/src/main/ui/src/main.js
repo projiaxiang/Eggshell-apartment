@@ -1,5 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -22,13 +20,12 @@ axios.interceptors.request.use(
     loadinginstace = Loading.service(
       {
         fullscreen: true,
-        text: '正在拼命加载...'
+        text: '拼命请求中...'
       }
     )
     if (config.url.includes('api')) {
-      let token = sessionStorage.getItem('user_session')
+      let token = localStorage.getItem('user_session')
       if (!token) {
-        Message.error({message: '请先登录系统'})
         router.replace({path: '/login'})
         return 403
       }
@@ -48,7 +45,14 @@ axios.interceptors.response.use(
   },
   error => {
     loadinginstace.close()
-    Message.error({message: '请求失败'})
+    if (error.message.includes('403')) {
+      Message({
+        message: '请先登录系统',
+        type: 'warning'
+      })
+    } else {
+      Message.error({message: '服务器端错误'})
+    }
     return Promise.reject(error)
 })
 

@@ -67,7 +67,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-  if (sessionStorage.getItem('user_session')) {
+  if (localStorage.getItem('user_session')) {
     next()
   } else {
     next({

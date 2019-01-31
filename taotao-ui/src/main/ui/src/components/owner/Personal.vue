@@ -85,8 +85,6 @@
           } else if (res.data === 0) {
             self.$message.error('修改失败')
           }
-        }).catch(function () {
-          self.$message.error('服务器端错误')
         })
       },
       showPassword() {
@@ -116,8 +114,6 @@
           } else if (res.data === 0) {
             self.$message.error('密码修改失败')
           }
-        }).catch(function () {
-          self.$message.error('服务器端错误')
         })
       }
     }

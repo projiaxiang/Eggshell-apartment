@@ -216,8 +216,6 @@
         }).then((res)=>{
           self.entities = res.data.house
           self.total = res.data.total
-        }).catch(function () {
-          self.$message.error('服务器端错误')
         })
       },
       addHouse() {
@@ -271,8 +269,6 @@
           } else {
             self.$message.error('房屋添加失败')
           }
-        }).catch(function () {
-          self.$message.error('服务器端错误')
         })
       },
       updateHouse() {
@@ -295,8 +291,6 @@
           } else {
             self.$message.error('房屋更新失败')
           }
-        }).catch(function () {
-          self.$message.error('服务器端错误')
         })
       },
       delHouse(id) {
@@ -321,8 +315,6 @@
             } else {
               self.$message.error('删除失败')
             }
-          }).catch(function () {
-            self.$message.error('服务器端错误')
           })
         }).catch(() => {
 
