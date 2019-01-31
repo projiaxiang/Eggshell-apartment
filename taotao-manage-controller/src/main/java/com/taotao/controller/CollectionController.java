@@ -52,7 +52,7 @@ public class CollectionController {
 
     @RequestMapping("/find/collection/by/userId")
     @ResponseBody
-    public List<?> findCollectionByUserId(@RequestParam("userId")String userId,
+    public List<Collection> findCollectionByUserId(@RequestParam("userId")String userId,
                                           @RequestParam("houseId")String houseId,
                                                    @RequestParam("token")String token) {
 //        Boolean flag = redisUtil.hasKey("collection" + token);
@@ -68,9 +68,12 @@ public class CollectionController {
 //            }
 //            return list;
 //        }
+        System.out.println(houseId);
         Map<String, Object> map = new HashMap<>();
         map.put("userId", userId);
-        map.put("houseId", houseId);
+        if (houseId != null && !houseId.equals("")) {
+            map.put("houseId", houseId);
+        }
         List<Collection> list =  collectionService.selectCollectionByUserId(map);
         return list;
     }

@@ -11,4 +11,6 @@ public class Collection implements Serializable {
     private String userId;
     private String houseId;
 
+    private House house;
+
 }

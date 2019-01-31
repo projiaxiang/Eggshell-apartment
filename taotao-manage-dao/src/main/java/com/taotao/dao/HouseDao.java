@@ -31,6 +31,16 @@ public interface HouseDao {
     })
     List<House> findHouse(Map<String, Object> house);
 
+    @Select("select * from house where id = #{houseId}")
+    @Results({
+            @Result(property = "id",column = "id"),
+            @Result(column = "id", property = "picture",
+                    many = @Many(
+                            select = "com.taotao.dao.PictureDao.findPictureByHouseId"
+                    ))
+    })
+    House findHouseById(@Param("houseId")String houseId);
+
     @Select("select count(*) as total from house")
     int findTotalHouse();
 

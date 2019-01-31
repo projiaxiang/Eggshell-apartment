@@ -155,7 +155,6 @@
       },
       async findHasCollection() {
         let self = this
-
         this.$axios({
           method: "post",
           url: "/find/collection/by/userId",

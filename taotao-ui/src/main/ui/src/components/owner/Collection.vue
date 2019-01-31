@@ -1,25 +1,88 @@
 <template>
   <div>
-    <div v-for="(o, index) in 5" class="div-top" style="cursor: pointer">
+    <div @click="showHouse(entity)" v-for="(entity, index) in collections" :key="index" class="div-top" style="cursor: pointer;">
       <el-card shadow="hover">
-        <div style="display: inline-block">
-          <span style="display: block;font-size: 20px">太阳宫 西坝河北里202号院精装两居室 10号线 国美电器</span>
-          <span style="display: block;margin-top: 5px;font-size: 15px">2室1厅  75㎡  整租</span>
-          <span style="display: block;margin-top: 5px;font-size: 15px">朝阳  西坝河  西坝河北里</span>
-        </div>
-        <div style="display: inline-block;float: right">
-          <span style="display: block">2018-12-20 07:43</span>
-          <span style="display: block;margin-left: 34.5px;margin-top: 10px"><span style="color: red;font-size: 25px">2399</span>元/月</span>
-          <el-button type="text" style="float: right">删除</el-button>
-        </div>
+        <el-col :span="6">
+          <img v-if="entity.house.picture && entity.house.picture.length" width="110px" height="110px" :src="baseUrl + entity.house.picture[0].name"/>
+          <img v-else width="110px" height="110px" :src="baseUrl + '1.jpg'"/>
+        </el-col>
+        <el-col :span="12">
+          <span style="display: block;font-size: 20px">{{entity.house.title}}</span>
+          <span style="display: block;margin-top: 5px;font-size: 15px">{{toApartment(entity.house.apartment)}}  {{entity.house.size}}㎡  {{entity.house.rent == '1' ? '合租' : '整租'}}</span>
+          <span style="display: block;margin-top: 5px;font-size: 15px">{{entity.house.subway}}</span>
+        </el-col>
+        <el-col :span="6">
+          <div style="float: right">
+            <span style="display: block">{{$moment(entity.house.createTime).format('YYYY-MM-DD HH:mm')}}</span>
+            <span style="display: block;margin-left: 34.5px;margin-top: 10px"><span style="color: red;font-size: 25px">{{entity.house.money}}</span>元/月</span>
+            <el-button type="text" style="float: right" @click="delHouse(entity.id)">删除</el-button>
+          </div>
+        </el-col>
       </el-card>
+    </div>
+    <div class="block" style="float: right">
+      <el-pagination
+        style="margin: 0 auto"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage1"
+        :page-size="pageSize"
+        background
+        layout="total, prev, pager, next"
+        :total="total">
+      </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
+  import UserRedis from '../../utils/RedisUtil.js'
+  import HouseUtil from '../../utils/HouseUtil.js'
+
   export default {
-    name: "Collection"
+    mixins: [UserRedis, HouseUtil],
+    data() {
+      return {
+        total: 0,
+        currentPage1: 1,
+        pageSize: 4,
+        collections: [],
+        user: {
+          id: null,
+          username: null
+        },
+        baseUrl: 'http://127.0.0.1:9091/image/'
+      }
+    },
+    created() {
+      this.init()
+    },
+    methods: {
+      async init() {
+        let key = localStorage.getItem('user_session')
+        if (key) {
+          await this.getUserInfoFromRedis(key)
+          await this.findCollection()
+        }
+      },
+      findCollection() {
+        let self = this
+        this.$axios({
+          method: "post",
+          url: "/find/collection/by/userId",
+          data: this.$qs.stringify({
+            token: localStorage.getItem('user_session'),
+            userId: this.user.id,
+            houseId: null
+          })
+        }).then((res)=>{
+          console.log(res.data)
+          this.collections = res.data
+        })
+      },
+      handleCurrentChange() {
+        this.findCollection()
+      }
+    }
   }
 </script>
 
