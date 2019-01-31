@@ -11,9 +11,6 @@ export default {
       }).then((res)=>{
         self.user = res.data
       })
-      .catch(function () {
-
-      })
     }
   }
 }

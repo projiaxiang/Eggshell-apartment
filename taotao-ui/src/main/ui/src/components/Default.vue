@@ -66,7 +66,7 @@
     },
     async created() {
       //如果cookie中存在user_session，则从缓存中获取user相关信息
-      let key = this.$cookie.get('user_session')
+      let key = localStorage.getItem('user_session')
 
       if (key) {
         await this.getUserInfoFromRedis(key)

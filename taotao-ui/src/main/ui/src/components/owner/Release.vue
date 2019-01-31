@@ -197,7 +197,7 @@
     },
     methods: {
       async init() {
-        let key = this.$cookie.get('user_session')
+        let key = localStorage.getItem('user_session')
         await this.getUserInfoFromRedis(key)
         this.loadHouse()
       },

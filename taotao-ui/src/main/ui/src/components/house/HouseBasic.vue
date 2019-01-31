@@ -145,12 +145,30 @@
     },
     methods: {
       async init() {
-        let key = this.$cookie.get('user_session')
+        let key = localStorage.getItem('user_session')
         if (key) {
           await this.getUserInfoFromRedis(key)
+          await this.findHasCollection()
         }
         let id = this.$route.params.id
         this.loadHouseById(id)
+      },
+      async findHasCollection() {
+        let self = this
+
+        this.$axios({
+          method: "post",
+          url: "/find/collection/by/userId",
+          data: this.$qs.stringify({
+            token: localStorage.getItem('user_session'),
+            userId: this.user.id,
+            houseId: self.$route.params.id
+          })
+        }).then((res)=>{
+          if (res.data.length > 0) {
+            this.isCollection = true
+          }
+        })
       },
       loadHouseById(id) {
         this.$axios({

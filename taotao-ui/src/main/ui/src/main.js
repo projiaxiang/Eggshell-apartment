@@ -28,6 +28,8 @@ axios.interceptors.request.use(
       if (!token) {
         router.replace({path: '/login'})
         return 403
+      } else {
+        config.headers.Authorization = token;
       }
     }
     return config
