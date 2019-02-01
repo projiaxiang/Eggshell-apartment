@@ -30,6 +30,7 @@ public class CollectionController {
     public Result insertCollection(@RequestBody String collection, @RequestHeader("Authorization")String token) {
         Collection bean = JSON.parseObject(collection, new TypeReference<Collection>() {});
         bean.setId(UUID.randomUUID().toString());
+        bean.setCreateTime(new Date());
         int result = collectionService.insertCollection(bean);
         if (result == 1) {
 //            List<Collection> list = null;
@@ -52,9 +53,11 @@ public class CollectionController {
 
     @RequestMapping("/find/collection/by/userId")
     @ResponseBody
-    public List<Collection> findCollectionByUserId(@RequestParam("userId")String userId,
-                                          @RequestParam("houseId")String houseId,
-                                                   @RequestParam("token")String token) {
+    public Map<String, Object> findCollectionByUserId(@RequestParam("userId")String userId,
+                                                   @RequestParam("houseId")String houseId,
+                                                   @RequestParam("token")String token,
+                                                   @RequestParam("startPage")int startPage,
+                                                   @RequestParam("pageSize")int pageSize) {
 //        Boolean flag = redisUtil.hasKey("collection" + token);
 //        if (flag) {
 //            List<Object> objs = (List<Object>) redisUtil.lGet("collection" + token, 0, -1);
@@ -68,14 +71,19 @@ public class CollectionController {
 //            }
 //            return list;
 //        }
-        System.out.println(houseId);
         Map<String, Object> map = new HashMap<>();
         map.put("userId", userId);
+        int total = collectionService.findTotalHouse(map);
+        map.put("startPage", startPage);
+        map.put("pageSize", pageSize);
         if (houseId != null && !houseId.equals("")) {
             map.put("houseId", houseId);
         }
         List<Collection> list =  collectionService.selectCollectionByUserId(map);
-        return list;
+        map.clear();
+        map.put("total", total);
+        map.put("collection", list);
+        return map;
     }
 
 }

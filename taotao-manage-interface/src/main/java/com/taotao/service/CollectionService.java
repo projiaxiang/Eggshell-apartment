@@ -11,4 +11,6 @@ public interface CollectionService {
 
     public List<Collection> selectCollectionByUserId(Map<String, Object> map);
 
+    public int findTotalHouse(Map<String, Object> map);
+
 }

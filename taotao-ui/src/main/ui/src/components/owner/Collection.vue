@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="collections.length !== 0">
     <div @click="showHouse(entity)" v-for="(entity, index) in collections" :key="index" class="div-top" style="cursor: pointer;">
       <el-card shadow="hover">
         <el-col :span="6">
@@ -13,7 +13,7 @@
         </el-col>
         <el-col :span="6">
           <div style="float: right">
-            <span style="display: block">{{$moment(entity.house.createTime).format('YYYY-MM-DD HH:mm')}}</span>
+            <span style="display: block">{{$moment(entity.createTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
             <span style="display: block;margin-left: 34.5px;margin-top: 10px"><span style="color: red;font-size: 25px">{{entity.house.money}}</span>元/月</span>
             <el-button type="text" style="float: right" @click="delHouse(entity.id)">删除</el-button>
           </div>
@@ -31,6 +31,11 @@
         :total="total">
       </el-pagination>
     </div>
+  </div>
+  <div v-else>
+    <label style="margin-left: 33%;margin-top: 30%;font-size: 20px">
+      未收藏房源， <el-button style="font-size: 20px" type="text">去找房</el-button>
+    </label>
   </div>
 </template>
 
@@ -66,22 +71,28 @@
       },
       findCollection() {
         let self = this
+        let startPage = (this.currentPage1 - 1)*this.pageSize
         this.$axios({
           method: "post",
           url: "/find/collection/by/userId",
           data: this.$qs.stringify({
             token: localStorage.getItem('user_session'),
             userId: this.user.id,
-            houseId: null
+            houseId: null,
+            startPage: startPage,
+            pageSize: self.pageSize,
           })
         }).then((res)=>{
-          console.log(res.data)
-          this.collections = res.data
+          this.total = res.data.total
+          this.collections = res.data.collection
         })
       },
       handleCurrentChange() {
         this.findCollection()
-      }
+      },
+      showHouse(entity) {
+        this.$router.push({name: 'HouseBasic', params: {id: entity.houseId}})
+      },
     }
   }
 </script>

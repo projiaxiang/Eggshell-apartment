@@ -161,10 +161,12 @@
           data: this.$qs.stringify({
             token: localStorage.getItem('user_session'),
             userId: this.user.id,
-            houseId: self.$route.params.id
+            houseId: self.$route.params.id,
+            startPage: 0,
+            pageSize: 1
           })
         }).then((res)=>{
-          if (res.data.length > 0) {
+          if (res.data.collection.length > 0) {
             this.isCollection = true
           }
         })

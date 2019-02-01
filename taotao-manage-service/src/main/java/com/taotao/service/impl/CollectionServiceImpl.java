@@ -24,4 +24,9 @@ public class CollectionServiceImpl implements CollectionService {
     public List<Collection> selectCollectionByUserId(Map<String, Object> map) {
         return collectionDao.selectCollectionByUserId(map);
     }
+
+    @Override
+    public int findTotalHouse(Map<String, Object> map) {
+        return collectionDao.findTotalHouse(map);
+    }
 }

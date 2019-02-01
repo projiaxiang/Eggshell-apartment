@@ -20,7 +20,7 @@
         </el-col>
         <el-col :span="6">
           <div style="float: right">
-            <span style="display: block">{{$moment(entity.createTime).format('YYYY-MM-DD HH:mm')}}</span>
+            <span style="display: block">{{$moment(entity.createTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
             <span style="display: block;margin-left: 34.5px;margin-top: 10px"><span style="color: red;font-size: 25px">{{entity.money}}</span>元/月</span>
             <el-button type="text" style="float: right" @click="delHouse(entity.id)">删除</el-button>
           </div>
