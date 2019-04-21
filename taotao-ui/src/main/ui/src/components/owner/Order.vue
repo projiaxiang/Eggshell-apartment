@@ -1,6 +1,6 @@
 <template>
-  <div v-if="collections.length !== 0">
-    <div @click="showHouse(entity)" v-for="(entity, index) in collections" :key="index" class="div-top" style="cursor: pointer;">
+  <div v-if="orders.length !== 0">
+    <div @click="showHouse(entity)" v-for="(entity, index) in orders" :key="index" class="div-top" style="cursor: pointer;">
       <el-card shadow="hover">
         <el-col :span="6">
           <img v-if="entity.house.picture && entity.house.picture.length" width="110px" height="110px" :src="baseUrl + entity.house.picture[0].name"/>
@@ -34,7 +34,7 @@
   </div>
   <div v-else>
     <label style="margin-left: 33%;margin-top: 30%;font-size: 20px">
-      未收藏房源， <el-button style="font-size: 20px" type="text">去找房</el-button>
+      未预定房源， <el-button style="font-size: 20px" type="text">去找房</el-button>
     </label>
   </div>
 </template>
@@ -50,7 +50,7 @@
         total: 0,
         currentPage1: 1,
         pageSize: 4,
-        collections: [],
+        orders: [],
         user: {
           id: null,
           username: null
@@ -66,17 +66,16 @@
         let key = localStorage.getItem('user_session')
         if (key) {
           await this.getUserInfoFromRedis(key)
-          await this.findCollection()
+          await this.findOrder()
         }
       },
-      findCollection() {
+      findOrder() {
         let self = this
         let startPage = (this.currentPage1 - 1)*this.pageSize
         this.$axios({
           method: "post",
-          url: "/find/collection/by/userId",
+          url: "/find/order/by/userId",
           data: this.$qs.stringify({
-            token: localStorage.getItem('user_session'),
             userId: this.user.id,
             houseId: null,
             startPage: startPage,
@@ -84,7 +83,7 @@
           })
         }).then((res)=>{
           this.total = res.data.total
-          this.collections = res.data.collection
+          this.orders = res.data.order
         })
       },
       handleCurrentChange() {
@@ -97,14 +96,14 @@
         let self = this
         let e = window.event
         e.stopPropagation()
-        this.$confirm('此操作将永久删除该收藏, 是否继续?', '提示', {
+        this.$confirm('此操作将永久删除该预定, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           self.$axios({
             method: "post",
-            url: "/delete/collection",
+            url: "/delete/order",
             data: this.$qs.stringify({
               houseId: houseId,
               userId: self.user.id
@@ -112,7 +111,7 @@
           }).then((res)=>{
             if (res.data.success) {
               self.$message({message: '删除成功', type: 'success'})
-              self.findCollection()
+              self.findOrder()
             } else {
               self.$message.error('删除失败')
             }

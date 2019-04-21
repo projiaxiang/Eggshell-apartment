@@ -49,7 +49,8 @@
         <el-row class="margin-top-1">
           <el-button v-if="!isCollection" @click="saveCollection" type="primary" plain round icon="el-icon-star-off">收藏</el-button>
           <el-button  disabled v-else type="success" plain round icon="el-icon-star-off">已收藏</el-button>
-          <el-button type="primary" round style="width: 54%">预定</el-button>
+          <el-button v-if="!isOrder" type="primary" @click="saveOrder" round style="width: 54%">预定</el-button>
+          <el-button  disabled v-else type="success" plain round icon="el-icon-star-off">已预定</el-button>
         </el-row>
       </el-col>
     </el-row>
@@ -137,7 +138,8 @@
           {url: require('../../assets/14.jpg'), label: '空调'},
           {url: require('../../assets/15.jpg'), label: '智能锁'}
         ],
-        isCollection: false
+        isCollection: false,
+        isOrder: false
       }
     },
     created() {
@@ -149,6 +151,7 @@
         if (key) {
           await this.getUserInfoFromRedis(key)
           await this.findHasCollection()
+          await this.findHasOrder()
         }
         let id = this.$route.params.id
         this.loadHouseById(id)
@@ -168,6 +171,23 @@
         }).then((res)=>{
           if (res.data.collection.length > 0) {
             this.isCollection = true
+          }
+        })
+      },
+      async findHasOrder() {
+        let self = this
+        this.$axios({
+          method: "post",
+          url: "/find/order/by/userId",
+          data: this.$qs.stringify({
+            userId: this.user.id,
+            houseId: self.$route.params.id,
+            startPage: 0,
+            pageSize: 1
+          })
+        }).then((res)=>{
+          if (res.data.order.length > 0) {
+            this.isOrder = true
           }
         })
       },
@@ -204,6 +224,25 @@
             self.isCollection = true
           } else {
             self.$message.error('收藏失败')
+          }
+        })
+      },
+      saveOrder() {
+        let self = this
+
+        this.$axios({
+          method: "post",
+          url: "/api/order/insert/order",
+          data: {
+            userId: self.user.id,
+            houseId: self.$route.params.id
+          },
+        }).then((res)=>{
+          if (res.data.success) {
+            self.$message({message: '预定成功', type: 'success'})
+            self.isOrder = true
+          } else {
+            self.$message.error('预定失败')
           }
         })
       },

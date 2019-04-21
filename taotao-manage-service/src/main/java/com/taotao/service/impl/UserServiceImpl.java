@@ -26,4 +26,9 @@ public class UserServiceImpl implements UserService {
     public int updatePassword(int id, String password) {
         return userDao.updatePassword(id, password);
     }
+
+    @Override
+    public int insertUser(User bean) {
+        return userDao.insertUser(bean);
+    }
 }

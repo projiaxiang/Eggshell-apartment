@@ -29,7 +29,8 @@
         tabs: [
           {tab: '个人中心', id: '1'},
           {tab: '我的收藏', id: '2'},
-          {tab: '我的发布', id: '3'}
+          {tab: '我的发布', id: '3'},
+          {tab: '我的预定', id: '4'}
         ],
         tabName: '个人中心'
       }
@@ -43,6 +44,8 @@
           this.$router.push({name: 'collection'})
         } else if (tab.$options.propsData.label === '我的发布') {
           this.$router.push({name: 'release'})
+        } else if (tab.$options.propsData.label === '我的预定') {
+          this.$router.push({name: 'order'})
         }
       }
     }

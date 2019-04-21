@@ -14,7 +14,7 @@
         <el-main style="margin-left: 500px">
           <el-radio-group v-if="!user.id" v-model="tabPosition" style="margin-bottom: 30px;">
             <el-radio-button @click.native="toLogin" label="top">登录</el-radio-button>
-            <el-radio-button label="right">注册</el-radio-button>
+            <el-radio-button @click.native="goRegister" label="right">注册</el-radio-button>
           </el-radio-group>
           <span v-else style="margin-bottom: 30px;">
             欢迎您，
@@ -94,6 +94,10 @@
       },
       closeShowMenu() {
         this.isShowMenu = false
+      },
+      goRegister() {
+        let self = this
+        self.$router.push({name: 'register'})
       }
     }
   }

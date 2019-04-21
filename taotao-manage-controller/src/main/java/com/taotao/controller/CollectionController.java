@@ -33,18 +33,6 @@ public class CollectionController {
         bean.setCreateTime(new Date());
         int result = collectionService.insertCollection(bean);
         if (result == 1) {
-//            List<Collection> list = null;
-//            Boolean flag = redisUtil.hasKey("collection" + token);
-//            if (flag) {
-//                list = (List<Collection>) redisUtil.get("collection" + token);
-//                list.add(bean);
-//                redisUtil.lSet("collection" + token, list);
-//            } else {
-//                Map<String, Object> map = new HashMap<>();
-//                map.put("userId", bean.getUserId());
-//                list =  collectionService.selectCollectionByUserId(map);
-//                redisUtil.lSet("collection" + token, list);
-//            }
             return new Result("200", true, "添加成功");
         } else {
             return new Result("500", false, "添加失败");
@@ -58,19 +46,7 @@ public class CollectionController {
                                                    @RequestParam("token")String token,
                                                    @RequestParam("startPage")int startPage,
                                                    @RequestParam("pageSize")int pageSize) {
-//        Boolean flag = redisUtil.hasKey("collection" + token);
-//        if (flag) {
-//            List<Object> objs = (List<Object>) redisUtil.lGet("collection" + token, 0, -1);
-//            return objs;
-//        } else {
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("userId", userId);
-//            List<Collection> list =  collectionService.selectCollectionByUserId(map);
-//            if (list.size() != 0) {
-//                redisUtil.lSet("collection" + token, list);
-//            }
-//            return list;
-//        }
+
         Map<String, Object> map = new HashMap<>();
         map.put("userId", userId);
         int total = collectionService.findTotalHouse(map);
@@ -84,6 +60,17 @@ public class CollectionController {
         map.put("total", total);
         map.put("collection", list);
         return map;
+    }
+
+    @RequestMapping("/delete/collection")
+    @ResponseBody
+    public Result deleteHouse(@RequestParam("houseId")String houseId, @RequestParam("userId")String userId) {
+        int result = collectionService.deleteCollection(houseId, userId);
+        if (result == 0) {
+            return new Result("500", false, "删除失败");
+        } else {
+            return new Result("200", true, "删除成功");
+        }
     }
 
 }

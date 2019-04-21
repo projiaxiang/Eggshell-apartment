@@ -3,9 +3,11 @@ import Router from 'vue-router'
 import moren from '@/components/Default.vue'
 import index from '@/components/index.vue'
 import login from '@/components/login.vue'
+import register from '@/components/register.vue'
 import owner from '@/components/owner/Owner.vue'
 import collection from '@/components/owner/Collection.vue'
 import release from '@/components/owner/Release.vue'
+import order from '@/components/owner/Order.vue'
 import personal from '@/components/owner/Personal.vue'
 import HouseBasic from '@/components/house/HouseBasic.vue'
 
@@ -18,6 +20,11 @@ const router = new Router({
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: register
     },
     {
       path: '/',
@@ -52,6 +59,11 @@ const router = new Router({
               path: '/personal',
               name: 'personal',
               component: personal
+            },
+            {
+              path: '/order',
+              name: 'order',
+              component: order
             }
           ]
         },

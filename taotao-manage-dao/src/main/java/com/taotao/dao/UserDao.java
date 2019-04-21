@@ -1,10 +1,7 @@
 package com.taotao.dao;
 
 import com.taotao.entity.User;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserDao {
@@ -17,5 +14,9 @@ public interface UserDao {
 
     @Update("update user set password = #{password} where id = #{id}")
     int updatePassword(@Param("id")int id, @Param("password")String password);
+
+    @Insert("insert into user(username, password, name, sex, phone) " +
+            "values(#{username}, #{password}, #{name}, #{sex}, #{phone})")
+    int insertUser(User bean);
 
 }

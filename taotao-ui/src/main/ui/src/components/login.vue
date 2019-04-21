@@ -21,7 +21,7 @@
     </el-row>
     <el-row>
       <el-col :span="8" style="margin-left: 16%">
-        <el-button type="text">还没有账号？立即注册</el-button>
+        <el-button @click="goRegister" type="text">还没有账号？立即注册</el-button>
       </el-col>
     </el-row>
   </div>
@@ -59,8 +59,9 @@ export default {
         }
       })
     },
-    register() {
-      console.log('注册新用户')
+    goRegister() {
+      let self = this
+      self.$router.push({name: 'register'})
     }
   }
 }

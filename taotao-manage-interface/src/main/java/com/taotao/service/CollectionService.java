@@ -7,10 +7,12 @@ import java.util.Map;
 
 public interface CollectionService {
 
-    public int insertCollection(Collection bean);
+    int insertCollection(Collection bean);
 
-    public List<Collection> selectCollectionByUserId(Map<String, Object> map);
+    List<Collection> selectCollectionByUserId(Map<String, Object> map);
 
-    public int findTotalHouse(Map<String, Object> map);
+    int findTotalHouse(Map<String, Object> map);
+
+    int deleteCollection(String houseId, String userId);
 
 }

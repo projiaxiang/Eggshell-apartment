@@ -1,19 +1,25 @@
 package com.taotao.dao;
 
-import com.taotao.entity.Collection;
+import com.taotao.entity.Order;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
 
-@Mapper
-public interface CollectionDao {
+/**
+ * @author WangJiaCheng
+ * @create 2019-04-21 15:21
+ */
 
-    @Insert("insert into collection values(#{id}, #{houseId}, #{userId}, #{createTime})")
-    int insertCollection(Collection bean);
+@Mapper
+public interface OrderDao {
+
+    @Insert("INSERT INTO `order` (houseId, number, userId, createTime)" +
+            " values(#{houseId}, #{number}, #{userId}, #{createTime})")
+    int insertOrder(Order bean);
 
     @Select("<script>" +
-            "select * from collection where 1 = 1 " +
+            "select * from `order` where 1 = 1 " +
             "<if test=\"userId !=null \"> and userId = #{userId} </if> " +
             "<if test=\"houseId !=null \"> and houseId = #{houseId} </if> " +
             "order by createTime desc limit #{startPage}, #{pageSize}" +
@@ -25,12 +31,12 @@ public interface CollectionDao {
                             select = "com.taotao.dao.HouseDao.findHouseById"
                     ))
     })
-    List<Collection> selectCollectionByUserId(Map<String, Object> map);
+    List<Order> selectOrderByUserId(Map<String, Object> map);
 
-    @Select("select count(*) as total from collection where userId = #{userId}")
+    @Select("select count(*) as total from `order` where userId = #{userId}")
     int findTotalHouse(Map<String, Object> map);
 
-    @Delete("delete from collection where houseId = #{houseId} and userId = #{userId}")
-    int deleteCollection(@Param("houseId")String houseId, @Param("userId")String userId);
+    @Delete("delete from `order` where houseId = #{houseId} and userId = #{userId}")
+    int deleteOrder(@Param("houseId")String houseId, @Param("userId")String userId);
 
 }

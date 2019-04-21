@@ -148,6 +148,10 @@
       },
       toHouseBasic(id) {
         this.$router.push({name: 'HouseBasic', params: {id: id}})
+      },
+      goRegister() {
+        let self = this
+        self.$router.push({name: 'register'})
       }
     }
   }

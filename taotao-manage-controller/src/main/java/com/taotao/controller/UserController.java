@@ -45,6 +45,18 @@ public class UserController {
         return new Result("400", false, "用户名或密码不正确");
     }
 
+    @RequestMapping("/register")
+    public Result insertUser(@RequestBody String user) {
+        User bean = JSON.parseObject(user, new TypeReference<User>() {});
+        int result = userService.insertUser(bean);
+        if (result > 0) {
+            return new Result("200", true, "添加成功");
+        } else {
+            return new Result("500", false, "添加失败");
+        }
+
+    }
+
     @RequestMapping("/get/user/from/redis")
     public User getUserFormRedis(@RequestParam("key")String key) {
         User bean = (User) redisUtil.get("USER_SESSION:" + key);

@@ -29,4 +29,9 @@ public class CollectionServiceImpl implements CollectionService {
     public int findTotalHouse(Map<String, Object> map) {
         return collectionDao.findTotalHouse(map);
     }
+
+    @Override
+    public int deleteCollection(String houseId, String userId) {
+        return collectionDao.deleteCollection(houseId, userId);
+    }
 }
