@@ -23,14 +23,14 @@
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-input v-model="form.name" placeholder="请输入密码">
+        <el-input v-model="form.name" placeholder="请输入用户名">
           <template slot="prepend">用户名</template>
         </el-input>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-input v-model="form.phone" placeholder="请输入密码">
+        <el-input v-model="form.phone" placeholder="请输入手机号">
           <template slot="prepend">手机号</template>
         </el-input>
       </el-col>
@@ -95,6 +95,7 @@
           }
         }).then((res)=>{
           if (res.data.success) {
+            self.$message({message: '注册成功', type: 'success'})
             self.$router.push({name: 'login'})
           } else {
             self.$message.error('系统错误')

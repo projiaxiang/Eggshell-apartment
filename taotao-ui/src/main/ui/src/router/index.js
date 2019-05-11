@@ -10,6 +10,7 @@ import release from '@/components/owner/Release.vue'
 import order from '@/components/owner/Order.vue'
 import personal from '@/components/owner/Personal.vue'
 import HouseBasic from '@/components/house/HouseBasic.vue'
+import House from '@/components/house/House.vue'
 
 Vue.use(Router)
 
@@ -71,6 +72,11 @@ const router = new Router({
           path: '/house/basic/:id',
           name: 'HouseBasic',
           component: HouseBasic
+        },
+        {
+          path: '/house/:address/:rent',
+          name: 'House',
+          component: House
         }
       ]
     }

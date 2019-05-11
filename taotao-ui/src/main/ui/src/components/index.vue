@@ -8,13 +8,13 @@
     </el-carousel>
     <!--搜索框-->
     <div style="width: 60%;margin: 15px auto;">
-      <el-input placeholder="例如：回龙观、双井、天通苑、青年路、望京等" v-model="input5" class="input-with-select">
-        <el-select clearable v-model="select" slot="prepend" placeholder="请选择">
+      <el-input placeholder="例如：回龙观、双井、天通苑、青年路、望京等" v-model="address" class="input-with-select">
+        <el-select clearable v-model="rent" slot="prepend" placeholder="请选择">
           <el-option label="全部" value="all"></el-option>
-          <el-option label="整租" value="WholeRent"></el-option>
-          <el-option label="合租" value="RentSharing"></el-option>
+          <el-option label="整租" value="1"></el-option>
+          <el-option label="合租" value="2"></el-option>
         </el-select>
-        <el-button style="background-color: #00BFFF" slot="append" icon="el-icon-search"></el-button>
+        <el-button style="background-color: #00BFFF" slot="append" icon="el-icon-search" @click="findHouse"></el-button>
       </el-input>
     </div>
     <!--合租-->
@@ -78,11 +78,14 @@
 
 <script>
   import UserRedis from '../utils/RedisUtil.js'
+  import location from '../config/China_Province_City.json'
 
   export default {
     mixins: [UserRedis],
     data () {
       return {
+        selectLocation: [],
+        options: location,
         pictures: [
           {url: require('../assets/1.png')},
           {url: require('../assets/2.png')},
@@ -90,9 +93,7 @@
           {url: require('../assets/4.png')}
         ],
         activeIndex: '1',
-        select: '',
         conditionText: '',
-        input5: '',
         tabPosition: 'top',
         currentDate: new Date(),
         user: {
@@ -101,7 +102,9 @@
         },
         sharingHouse: [],
         wholeHouse: [],
-        baseUrl: 'http://127.0.0.1:9091/image/'
+        baseUrl: 'http://127.0.0.1:9091/image/',
+        rent: null,
+        address: null
       }
     },
     created() {
@@ -152,6 +155,17 @@
       goRegister() {
         let self = this
         self.$router.push({name: 'register'})
+      },
+      findHouse() {
+        let address = this.address
+        if (address == null) {
+          address = "all"
+        }
+        let rent = this.rent
+        if (rent == null) {
+          rent = "all"
+        }
+        this.$router.push({name: 'House', params: {address: address, rent: rent}})
       }
     }
   }

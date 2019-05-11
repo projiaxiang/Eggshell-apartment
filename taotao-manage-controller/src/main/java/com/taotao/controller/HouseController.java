@@ -58,6 +58,23 @@ public class HouseController {
         return result;
     }
 
+    @RequestMapping("/find/house/by/address")
+    @ResponseBody
+    public Map<String, Object> findHouseByAddress(@RequestParam("address")String address, @RequestParam("rent")String rent,
+                                                  @RequestParam("startPage")int startPage, @RequestParam("pageSize")int pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("address", "%" + address + "%");
+        map.put("startPage", startPage);
+        map.put("pageSize", pageSize);
+        map.put("rent", rent);
+        List<House> beans = houseService.findHouse(map);
+        int total = houseService.countHouseByAddress(map);
+        Map<String, Object> result = new HashMap<>();
+        result.put("total", total);
+        result.put("house", beans);
+        return result;
+    }
+
     @RequestMapping("/find/index/house")
     @ResponseBody
     public List<House> findIndexHouse(@RequestParam("rent")String rent) {

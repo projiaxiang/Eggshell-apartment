@@ -26,6 +26,11 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
+    public int countHouseByAddress(Map<String, Object> house) {
+        return houseDao.countHouseByAddress(house);
+    }
+
+    @Override
     public int deleteHouse(String id) {
         return houseDao.deleteHouse(id);
     }

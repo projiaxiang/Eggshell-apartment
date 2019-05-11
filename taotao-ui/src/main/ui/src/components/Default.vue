@@ -4,10 +4,7 @@
         <el-aside width="410px">
           <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
             <el-menu-item index="1" @click="toIndex">首页</el-menu-item>
-            <el-menu-item index="2">找房</el-menu-item>
-            <el-menu-item index="3">合租</el-menu-item>
-            <el-menu-item index="4">整租</el-menu-item>
-            <el-menu-item index="5">月租</el-menu-item>
+            <el-menu-item index="2" @click="toHouse">找房</el-menu-item>
             <el-menu-item index="6" @click="toOwner">我的</el-menu-item>
           </el-menu>
         </el-aside>
@@ -48,6 +45,8 @@
           return '1'
         } else if (route === 'owner' || route === 'release' || route === 'collection' || route === 'personal' ) {
           return '6'
+        } else if (route === 'House') {
+          return '2'
         }
       }
     },
@@ -98,6 +97,11 @@
       goRegister() {
         let self = this
         self.$router.push({name: 'register'})
+      },
+      toHouse() {
+        let address = "all"
+        let rent = "all"
+        this.$router.push({name: 'House', params: {address: address, rent: rent}})
       }
     }
   }

@@ -99,8 +99,7 @@
           :options="options"
           filterable
           clearable
-          v-model="selectLocation"
-          change-on-select/>
+          v-model="selectLocation"/>
       </el-form-item>
       <el-form-item label="租金">
         <el-input-number size="medium" v-model="entity.money"></el-input-number>
@@ -154,7 +153,7 @@
       return {
         total: 0,
         currentPage1: 1,
-        pageSize: 4,
+        pageSize: 4,options: location,
         options: location,
         entities: [],
         entity: {
@@ -324,24 +323,35 @@
         this.isAdd = true
         this.entity = entity
         this.selectLocation = Array.from({
-          0: this.entity.province,
-          1: this.entity.city,
-          2: this.entity.county,
+          0: this.entity.province.split(',')[0],
+          1: this.entity.province.split(',')[1],
+          2: this.entity.province.split(',')[2],
           length: 3
         })
       },
       splitLocation() {
         let selectLocation = this.selectLocation
-        if (selectLocation.length === 1) {
-          this.entity.province = selectLocation[0]
-        } else if (selectLocation.length === 2) {
-          this.entity.province = selectLocation[0]
-          this.entity.city = selectLocation[1]
-        } else if (selectLocation.length === 3) {
-          this.entity.province = selectLocation[0]
-          this.entity.city = selectLocation[1]
-          this.entity.county = selectLocation[2]
+        this.entity.province = selectLocation[0] + ',' + selectLocation[1] + ',' + selectLocation[2]
+
+        let options = this.options
+        let city = ''
+        for (let i = 0; i < options.length; i++) {
+          if (options[i].value === selectLocation[0]) {
+            city = options[i].label
+            for (let j = 0; j < options[i].children.length; j++) {
+              if (options[i].children[j].value === selectLocation[1]) {
+                city += "," + options[i].children[j].label
+                for (let k = 0; k < options[i].children[j].children.length; k++) {
+                  if (options[i].children[j].children[k].value === selectLocation[2]) {
+                    city += "," + options[i].children[j].children[k].label
+                  }
+                }
+              }
+            }
+          }
         }
+
+        this.entity.city = city
       },
       backPage() {
         this.isAdd = false

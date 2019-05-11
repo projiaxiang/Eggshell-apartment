@@ -11,6 +11,8 @@ public interface HouseService {
 
     public List<House> findHouse(Map<String, Object> house);
 
+    int countHouseByAddress(Map<String, Object> house);
+
     public int deleteHouse(String id);
 
     public int updateHouse(House bean);
