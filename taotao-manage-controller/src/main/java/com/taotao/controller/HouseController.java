@@ -1,5 +1,6 @@
 package com.taotao.controller;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -63,7 +64,8 @@ public class HouseController {
     public Map<String, Object> findHouseByAddress(@RequestParam("address")String address, @RequestParam("rent")String rent,
                                                   @RequestParam("startPage")int startPage, @RequestParam("pageSize")int pageSize) {
         Map<String, Object> map = new HashMap<>();
-        map.put("address", "%" + address + "%");
+        address = address.equals("all") ? "all" : "%" + address + "%";
+        map.put("address", address);
         map.put("startPage", startPage);
         map.put("pageSize", pageSize);
         map.put("rent", rent);

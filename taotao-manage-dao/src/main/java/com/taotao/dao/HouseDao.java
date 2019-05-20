@@ -18,9 +18,9 @@ public interface HouseDao {
     @Select("<script>" +
             "select * from house where 1 = 1 " +
             "<if test=\"userId !=null \"> and userId = #{userId} </if> " +
-            "<if test=\"rent !=null \"> and rent = #{rent} </if> " +
+            "<if test=\"rent != 'all' \"> and rent = #{rent} </if> " +
             "<if test=\"id !=null \"> and id = #{id} </if> " +
-            "<if test=\"address !=null \"> and (title like #{address} or city like #{address}) </if> " +
+            "<if test=\"address != 'all' \"> and (title like #{address} or city like #{address}) </if> " +
             "order by createTime desc limit #{startPage}, #{pageSize}" +
             "</script>")
     @Results({
@@ -34,8 +34,8 @@ public interface HouseDao {
 
     @Select("<script>" +
      "select count(*) as total from house where 1 = 1 " +
-     "<if test=\"rent !=null \"> and rent = #{rent} </if> " +
-     "<if test=\"address !=null \"> and (title like #{address} or city like #{address}) </if> " +
+     "<if test=\"rent != 'all' \"> and rent = #{rent} </if> " +
+     "<if test=\"address != 'all' \"> and (title like #{address} or city like #{address}) </if> " +
      "</script>")
     int countHouseByAddress(Map<String, Object> house);
 
