@@ -153,7 +153,7 @@
       return {
         total: 0,
         currentPage1: 1,
-        pageSize: 4,options: location,
+        pageSize: 4,
         options: location,
         entities: [],
         entity: {
@@ -214,6 +214,7 @@
             userId: self.user.id
           })
         }).then((res)=>{
+          console.log(res)
           self.entities = res.data.house
           self.total = res.data.total
         })

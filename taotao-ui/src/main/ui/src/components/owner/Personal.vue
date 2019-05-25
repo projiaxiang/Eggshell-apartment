@@ -1,6 +1,6 @@
 <template>
   <el-form label-width="80px" style="width: 50%;">
-    <el-form-item label="用户名">
+    <el-form-item label="账号">
       <el-input v-model="user.username" :disabled="true"></el-input>
     </el-form-item>
     <el-form-item label="姓名">

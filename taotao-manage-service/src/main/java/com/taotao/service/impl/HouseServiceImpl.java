@@ -41,7 +41,7 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public int findTotalHouse() {
-        return houseDao.findTotalHouse();
+    public int findTotalHouse(Map<String, Object> map) {
+        return houseDao.findTotalHouse(map);
     }
 }

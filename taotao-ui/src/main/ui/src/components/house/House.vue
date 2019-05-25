@@ -78,7 +78,8 @@
           })
         },
         showHouse(entity) {
-          this.$router.push({name: 'HouseBasic', params: {id: entity.houseId}})
+          console.log(entity)
+          this.$router.push({name: 'HouseBasic', params: {id: entity.id}})
         },
         handleCurrentChange() {
           this.init()

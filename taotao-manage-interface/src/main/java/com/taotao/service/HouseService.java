@@ -17,6 +17,6 @@ public interface HouseService {
 
     public int updateHouse(House bean);
 
-    public int findTotalHouse();
+    public int findTotalHouse(Map<String, Object> map);
 
 }

@@ -34,7 +34,7 @@
   </div>
   <div v-else>
     <label style="margin-left: 33%;margin-top: 30%;font-size: 20px">
-      未预定房源， <el-button style="font-size: 20px" type="text">去找房</el-button>
+      未预定房源， <el-button @click="toHouse" style="font-size: 20px" type="text">去找房</el-button>
     </label>
   </div>
 </template>
@@ -119,6 +119,11 @@
         }).catch(() => {
 
         })
+      },
+      toHouse() {
+        let address = "all"
+        let rent = "all"
+        this.$router.push({name: 'House', params: {address: address, rent: rent}})
       }
     }
   }

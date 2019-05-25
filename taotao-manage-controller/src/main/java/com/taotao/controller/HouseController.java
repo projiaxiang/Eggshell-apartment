@@ -47,11 +47,11 @@ public class HouseController {
     @ResponseBody
     public Map<String, Object> findHouse(@RequestParam("userId")String userId,
                                  @RequestParam("startPage")int startPage, @RequestParam("pageSize")int pageSize) {
-        int total = houseService.findTotalHouse();
         Map<String, Object> map = new HashMap<>();
         map.put("userId", userId);
         map.put("startPage", startPage);
         map.put("pageSize", pageSize);
+        int total = houseService.findTotalHouse(map);
         List<House> beans = houseService.findHouse(map);
         Map<String, Object> result = new HashMap<>();
         result.put("total", total);
