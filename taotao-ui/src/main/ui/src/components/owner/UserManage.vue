@@ -18,7 +18,7 @@
         label="性別"
         width="180">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.sex === '1'" type="success">男</el-tag>
+          <el-tag v-if="scope.row.sex === '1'">男</el-tag>
           <el-tag v-else type="danger">女</el-tag>
         </template>
       </el-table-column>
