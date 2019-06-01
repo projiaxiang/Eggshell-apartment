@@ -83,7 +83,16 @@
           })
         }).then((res)=>{
           this.total = res.data.total
-          this.orders = res.data.order
+          let orders = res.data.order
+          let order = []
+          if (orders.length > 0) {
+            for (let i = 0; i < orders.length; i++) {
+              if (orders[i].house !== null) {
+                order.push(orders[i])
+              }
+            }
+          }
+          this.orders = order
         })
       },
       handleCurrentChange() {

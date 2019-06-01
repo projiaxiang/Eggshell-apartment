@@ -84,7 +84,16 @@
           })
         }).then((res)=>{
           this.total = res.data.total
-          this.collections = res.data.collection
+          let collections = res.data.collection
+          let collection = []
+          if (collections.length > 0) {
+            for (let i = 0; i < collections.length; i++) {
+              if (collections[i].house !== null) {
+                collection.push(collections[i])
+              }
+            }
+          }
+          this.collections = collection
         })
       },
       handleCurrentChange() {
