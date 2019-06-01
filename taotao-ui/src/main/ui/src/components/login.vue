@@ -49,11 +49,11 @@ export default {
           password:this.form.password
         })
       }).then((res)=>{
-        if (res.data.success) {
-          self.$router.push({name: 'index'})
-          self.$cookie.set('user_session', res.data.message)
+        if (res.data.id !== null) {
+          self.$cookie.set('user_session', res.data.id)
           //为了在跳转路由时验证是否登录
-          localStorage.setItem('user_session', res.data.message)
+          localStorage.setItem('user_session', res.data.id)
+          self.$router.push({name: 'index'})
         } else {
           self.$message.error('用户名或密码错误')
         }

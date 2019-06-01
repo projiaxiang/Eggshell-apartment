@@ -118,6 +118,7 @@
         if (key) {
           await this.getUserInfoFromRedis(key)
         }
+
         this.loadSharingHouse()
         this.loadWholeHouse()
       },

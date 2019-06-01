@@ -9,6 +9,8 @@ import collection from '@/components/owner/Collection.vue'
 import release from '@/components/owner/Release.vue'
 import order from '@/components/owner/Order.vue'
 import personal from '@/components/owner/Personal.vue'
+import HouseManage from '@/components/owner/HouseManage.vue'
+import UserManage from '@/components/owner/UserManage.vue'
 import HouseBasic from '@/components/house/HouseBasic.vue'
 import House from '@/components/house/House.vue'
 
@@ -65,6 +67,16 @@ const router = new Router({
               path: '/order',
               name: 'order',
               component: order
+            },
+            {
+              path: '/house/manage',
+              name: 'HouseManage',
+              component: HouseManage
+            },
+            {
+              path: '/user/manage',
+              name: 'UserManage',
+              component: UserManage
             }
           ]
         },

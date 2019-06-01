@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -32,17 +32,17 @@ public class UserController {
     private long expire;
 
     @RequestMapping("/login")
-    public Result findUser(@RequestParam("username")String username, @RequestParam("password")String password) {
+    public User findUser(@RequestParam("username")String username, @RequestParam("password")String password) {
         User bean = userService.findUser(username, password);
         if (bean != null) {
             //为了提高安全性，把密码设置为空
             bean.setPassword(null);
             //把uuid作为缓存的key
-            String uuid = UUID.randomUUID().toString();
-            redisUtil.set("USER_SESSION:" + uuid, bean);
-            return new Result("200", true, uuid);
+            // String uuid = UUID.randomUUID().toString();
+            redisUtil.set("USER_SESSION:" + bean.getId(), bean);
+            return bean;
         }
-        return new Result("400", false, "用户名或密码不正确");
+        return new User();
     }
 
     @RequestMapping("/register")
@@ -78,6 +78,32 @@ public class UserController {
     @RequestMapping("/update/user/password")
     public int updatePassword(@RequestParam int id, @RequestParam String password) {
         return userService.updatePassword(id, password);
+    }
+
+    @RequestMapping("/list/user")
+    public Map<String, Object> listUser(@RequestParam("startPage")int startPage, @RequestParam("pageSize")int pageSize) {
+      Map<String, Object> map = new HashMap<>();
+      map.put("startPage", startPage);
+      map.put("pageSize", pageSize);
+      Integer count = userService.countUser();
+      List<User> userList = new ArrayList<>();
+      if (count.intValue() > 0) {
+        userList = userService.listUsers(map);
+      }
+      Map<String, Object> result = new HashMap<>();
+      result.put("total", count);
+      result.put("user", userList);
+      return result;
+    }
+
+    @RequestMapping("/delete/user")
+    public Result deleteUser(@RequestParam("id")int id) {
+      int result = userService.deleteUser(id);
+      if (result == 0) {
+        return new Result("500", false, "删除失败");
+      } else {
+        return new Result("200", true, "删除成功");
+      }
     }
 
 }

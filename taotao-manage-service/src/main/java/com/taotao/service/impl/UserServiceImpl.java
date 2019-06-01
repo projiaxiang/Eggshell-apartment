@@ -6,6 +6,9 @@ import com.taotao.entity.User;
 import com.taotao.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+import java.util.Map;
+
 @Service(version = "1.0")
 public class UserServiceImpl implements UserService {
 
@@ -30,5 +33,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public int insertUser(User bean) {
         return userDao.insertUser(bean);
+    }
+
+    @Override
+    public List<User> listUsers(Map<String, Object> user) {
+      return userDao.listUsers(user);
+    }
+
+    @Override
+    public Integer deleteUser(int id) {
+      return userDao.deleteUser(id);
+    }
+
+    @Override
+    public Integer countUser() {
+      return userDao.countUser();
     }
 }
